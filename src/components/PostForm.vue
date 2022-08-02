@@ -4,25 +4,25 @@
     <form @submit.prevent>
       <h4>Создание поста</h4>
 <!--      Для того чтобы была синхранизация данных и инпута прописывается v-model-->
-      <input
+      <my-input
           v-model="post.title"
           class="input"
-          type="text"
           placeholder="название поста"
-      >
-      <input
+      />
+      <my-input
           v-model="post.body"
           class="input"
-          type="text"
-          placeholder="описание поста">
+          placeholder="описание поста" />
       <my-button @click="createPost" class="btn">Создать</my-button>
     </form>
   </div>
 </template>
 
 <script>
+import MyInput from "@/components/UI/MyInput";
 export default {
   name: "PostForm",
+  components: {MyInput},
   data() {
     return {
       post: {
@@ -59,12 +59,5 @@ form {
   background: none;
   border: 2px solid red;
   padding: 10px;
-}
-
-.input {
-  width: 100%;
-  border: 1px solid green;
-  padding: 10px 15px;
-  margin-bottom: 15px;
 }
 </style>
