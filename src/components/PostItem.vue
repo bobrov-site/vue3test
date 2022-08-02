@@ -10,6 +10,9 @@
         Описание: <strong>{{post.body}}</strong>
       </strong>
     </div>
+    <div class="post__buttons">
+      <button>Удалить</button>
+    </div>
   </div>
 </template>
 
@@ -26,5 +29,16 @@ export default {
 </script>
 
 <style scoped>
-
+.post {
+  padding: 15px;
+  border: 2px solid green;
+  margin-bottom: 15px;
+}
+.post__buttons button {
+  margin-top: 15px;
+  align-self: end;
+  background: none;
+  border: 2px solid red;
+  padding: 10px;
+}
 </style>
