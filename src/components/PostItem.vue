@@ -11,14 +11,16 @@
       </strong>
     </div>
     <div class="post__buttons">
-      <button>Удалить</button>
+      <MyButton>Удалить</MyButton>
     </div>
   </div>
 </template>
 
 <script>
+import MyButton from "@/components/UI/MyButton";
 export default {
   name: "PostItem",
+  components: {MyButton},
   props: {
     post: {
       type: Object,
