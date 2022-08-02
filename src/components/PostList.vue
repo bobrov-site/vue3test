@@ -15,7 +15,13 @@
 
 <script>
 export default {
-  name: "PostList"
+  name: "PostList",
+  props: {
+    posts: {
+      type: Array,
+      required: true,
+    }
+  }
 }
 </script>
 
