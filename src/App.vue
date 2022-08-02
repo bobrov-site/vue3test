@@ -1,11 +1,18 @@
 <template>
 <div class="app">
+  <post-form/>
+  <post-list/>
 </div>
 </template>
 
 <script>
+import PostForm from "@/components/PostForm";
+import PostList from "@/components/PostList";
 export default {
   name: "App",
+  components: {
+    PostList, PostForm
+  },
   data() {
     return {
       posts: [
@@ -40,26 +47,6 @@ export default {
 }
 .app {
   padding: 15px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-.btn {
-  align-self: end;
-  background: none;
-  border: 2px solid red;
-  padding: 10px;
-}
-
-.input {
-  width: 100%;
-  border: 1px solid green;
-  padding: 10px 15px;
-  margin-bottom: 15px;
 }
 
 </style>
