@@ -1,6 +1,15 @@
 <template>
 <div>
-  it's work!
+  <div>
+    <button @click="addLike">like</button>
+    <button @click="addDislike">dislike</button>
+  </div>
+  <div>
+    количество лайков <strong> {{likes}}</strong>
+  </div>
+  <div>
+    количество дизлайков <strong> {{dislikes}}</strong>
+  </div>
 </div>
 </template>
 
@@ -9,7 +18,16 @@ export default {
   name: "App",
   data() {
     return {
-      likes: 0
+      likes: 0,
+      dislikes: 5,
+    }
+  },
+  methods: {
+    addLike() {
+      this.likes += 1
+    },
+    addDislike() {
+      this.dislikes += 1
     }
   }
 }
