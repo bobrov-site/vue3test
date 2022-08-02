@@ -1,34 +1,5 @@
 <template>
 <div class="app">
-  <form @submit.prevent>
-    <h4>Создание поста</h4>
-    <input
-        v-bind:value="title"
-        @input="title = $event.target.value"
-        class="input"
-        type="text"
-        placeholder="название поста"
-    >
-    <input
-        v-bind:value="body"
-        @input="body = $event.target.value"
-        class="input"
-        type="text"
-        placeholder="описание поста">
-    <button @click="createPost" class="btn">Создать</button>
-  </form>
-  <div v-for="post in posts" class="post">
-    <div>
-      <strong>
-          Название: <strong>{{post.title}}</strong>
-      </strong>
-    </div>
-    <div>
-      <strong>
-        Описание: <strong>{{post.body}}</strong>
-      </strong>
-    </div>
-  </div>
 </div>
 </template>
 
@@ -82,12 +53,6 @@ form {
   background: none;
   border: 2px solid red;
   padding: 10px;
-}
-
-.post {
-  padding: 15px;
-  border: 2px solid green;
-  margin-bottom: 15px;
 }
 
 .input {
