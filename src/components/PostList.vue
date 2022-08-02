@@ -1,21 +1,15 @@
 <template>
-  <div v-for="post in posts" class="post">
-    <div>
-      <strong>
-        Название: <strong>{{post.title}}</strong>
-      </strong>
-    </div>
-    <div>
-      <strong>
-        Описание: <strong>{{post.body}}</strong>
-      </strong>
-    </div>
+  <div>
+    <h3>Список постов</h3>
+    <PostItem :post="post" v-for="post in posts"/>
   </div>
 </template>
 
 <script>
+import PostItem from "@/components/PostItem";
 export default {
   name: "PostList",
+  components: {PostItem},
   props: {
     posts: {
       type: Array,

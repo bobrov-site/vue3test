@@ -15,7 +15,13 @@
 
 <script>
 export default {
-  name: "PostItem"
+  name: "PostItem",
+  props: {
+    post: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 
