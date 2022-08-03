@@ -1,6 +1,8 @@
 <template>
 <div class="app">
   <h1>Страница с постами</h1>
+<!--  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки-->
+  <input v-model.trim="modificatorValue">
   <my-button @click="showDialog">Создать пост</my-button>
   <MyDialog v-model:show="dialogVisible">
     <PostForm @create="createPost"/>
@@ -28,7 +30,8 @@ export default {
         {id: 2, title: 'Заголовок поста2', body: 'описание поста2'},
         {id: 3, title: 'Заголовок поста3', body: 'описание поста3'},
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      modificatorValue: ''
     }
   },
   methods: {
@@ -41,6 +44,9 @@ export default {
     },
     showDialog(event) {
       this.dialogVisible = true;
+    },
+    async fetchPosts() {
+
     }
   }
 }
