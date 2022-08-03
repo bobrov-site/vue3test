@@ -1,5 +1,5 @@
 <template>
-<button>
+<button class="btn">
 <!--  слот использования для вывода контента внутри-->
 <slot></slot>
 </button>
