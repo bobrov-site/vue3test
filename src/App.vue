@@ -1,6 +1,7 @@
 <template>
 <div class="app">
   <h1>Страница с постами</h1>
+  <my-input v-model="searchQuery" placeholder="Поиск" />
   <div class="app__btns">
     <my-button @click="showDialog">Создать пост</my-button>
     <my-select :options="sortOptions" v-model="selectedSort"/>
@@ -10,7 +11,7 @@
   <MyDialog v-model:show="dialogVisible">
     <PostForm @create="createPost"/>
   </MyDialog>
-  <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedPosts"/>
+  <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
   <my-spinner v-else/>
 </div>
 </template>
@@ -23,9 +24,11 @@ import MyButton from "@/components/UI/MyButton";
 import axios from 'axios'
 import MySpinner from "@/components/UI/MySpinner";
 import MySelect from "@/components/UI/MySelect";
+import MyInput from "@/components/UI/MyInput";
 export default {
   name: "App",
   components: {
+    MyInput,
     MySelect,
     MySpinner,
     MyButton,
@@ -44,7 +47,8 @@ export default {
         {value: 'title', name: 'по названию'},
         {value: 'body', name: 'по описанию'},
         {value: 'id', name: 'по id'},
-      ]
+      ],
+      searchQuery: ''
     }
   },
   methods: {
@@ -80,6 +84,9 @@ export default {
     sortedPosts(){
       return [...this.posts].sort((post1,post2) => String(post1[this.selectedSort])?.localeCompare(String(post2[this.selectedSort]), 'en', {numeric: true})
       )
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery))
     }
   },
   watch: {
