@@ -1,10 +1,21 @@
 <template>
-  <input class="input" type="text">
+<!--  для того чтобы отдать данные из компонента нужно прописать пропсы :value (для инпута)-->
+<!--  Чтобы произошло само обновление, нужно событие для инпута @input, здесь используется updateInput-->
+  <input :value="modelValue" @input="updateInput" class="input" type="text">
 </template>
 
 <script>
 export default {
-  name: "MyInput"
+  name: "MyInput",
+  props: {
+    modelValue: [String, Number]
+  },
+  methods: {
+    updateInput(event) {
+      //шаблон для обновления данных
+      this.$emit('update:modelValue', event.target.value)
+    }
+  }
 }
 </script>
 
