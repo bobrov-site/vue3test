@@ -2,12 +2,13 @@
 <div class="app">
   <h1>Страница с постами</h1>
 <!--  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки-->
-  <input v-model.trim="modificatorValue">
+  <input style="display: none" v-model.trim="modificatorValue">
   <my-button @click="showDialog">Создать пост</my-button>
   <MyDialog v-model:show="dialogVisible">
     <PostForm @create="createPost"/>
   </MyDialog>
-  <PostList @remove="removePost" :posts="posts"/>
+  <PostList v-if="!isPostsLoading" @remove="removePost" :posts="posts"/>
+  <my-spinner v-else/>
 </div>
 </template>
 
@@ -16,9 +17,12 @@ import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
 import MyDialog from "@/components/UI/MyDialog";
 import MyButton from "@/components/UI/MyButton";
+import axios from 'axios'
+import MySpinner from "@/components/UI/MySpinner";
 export default {
   name: "App",
   components: {
+    MySpinner,
     MyButton,
     MyDialog,
     PostList, PostForm
@@ -26,12 +30,10 @@ export default {
   data() {
     return {
       posts: [
-        {id: 1, title: 'Заголовок поста1', body: 'описание поста1'},
-        {id: 2, title: 'Заголовок поста2', body: 'описание поста2'},
-        {id: 3, title: 'Заголовок поста3', body: 'описание поста3'},
       ],
       dialogVisible: false,
-      modificatorValue: ''
+      modificatorValue: '',
+      isPostsLoading: false
     }
   },
   methods: {
@@ -46,8 +48,22 @@ export default {
       this.dialogVisible = true;
     },
     async fetchPosts() {
-
+      try {
+        this.isPostsLoading = true
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        this.posts = response.data
+        console.log(response);
+        this.isPostsLoading = false
+      }
+      catch (e) {
+        alert('ошибка')
+      }
+      finally {
+      }
     }
+  },
+  mounted() {
+    this.fetchPosts();
   }
 }
 </script>
