@@ -13,7 +13,7 @@
   </MyDialog>
   <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
   <my-spinner v-else/>
-  <PageItem :limit="limit" :total-pages="totalPages"/>
+  <PageItem v-model:page="page" :total-pages="totalPages"/>
 </div>
 </template>
 

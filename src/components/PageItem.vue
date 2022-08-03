@@ -1,7 +1,7 @@
 <template>
   <div class="page__wrapper">
-    <div v-for="page in totalPages">
-      {{page}}
+    <div @click="changePage(pageNumber)" v-for="pageNumber in totalPages" :key="pageNumber" class="page" :class="{'current-page' : pageNumber === page }">
+      {{pageNumber}}
     </div>
   </div>
 </template>
@@ -14,14 +14,34 @@ export default {
       type: Number,
       required: true,
     },
-    limit: {
+    page: {
       type: Number,
       required: true
+    }
+  },
+  methods: {
+    changePage(pageNumber) {
+      this.$emit('update:page', pageNumber);
     }
   }
 }
 </script>
 
 <style scoped>
-
+.page__wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.page {
+  border: 1px solid red;
+  padding: 10px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.page:last-child {
+  margin-right: 0;
+}
+.current-page {
+  border: 1px solid green;
+}
 </style>
