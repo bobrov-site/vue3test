@@ -13,6 +13,7 @@
   </MyDialog>
   <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
   <my-spinner v-else/>
+  <PageItem :limit="limit" :total-pages="totalPages"/>
 </div>
 </template>
 
@@ -25,9 +26,11 @@ import axios from 'axios'
 import MySpinner from "@/components/UI/MySpinner";
 import MySelect from "@/components/UI/MySelect";
 import MyInput from "@/components/UI/MyInput";
+import PageItem from "@/components/PageItem";
 export default {
   name: "App",
   components: {
+    PageItem,
     MyInput,
     MySelect,
     MySpinner,
@@ -48,7 +51,10 @@ export default {
         {value: 'body', name: 'по описанию'},
         {value: 'id', name: 'по id'},
       ],
-      searchQuery: ''
+      searchQuery: '',
+      page: 1,
+      limit: 10,
+      totalPages: 0
     }
   },
   methods: {
@@ -65,7 +71,13 @@ export default {
     async fetchPosts() {
       try {
         this.isPostsLoading = true
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts' , {
+          params: {
+            _page: this.page,
+            _limit: this.limit
+          }
+        })
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
         this.posts = response.data
         console.log(response);
         this.isPostsLoading = false
