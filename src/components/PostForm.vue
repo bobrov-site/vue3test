@@ -43,6 +43,15 @@ export default {
         body: ''
       }
     }
+  },
+  // для отслеживания данных
+  watch: {
+    post: {
+      handler(newVal) {
+        console.log(newVal)
+      },
+      deep: true
+    }
   }
 }
 </script>

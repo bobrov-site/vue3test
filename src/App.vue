@@ -1,13 +1,16 @@
 <template>
 <div class="app">
   <h1>Страница с постами</h1>
+  <div class="app__btns">
+    <my-button @click="showDialog">Создать пост</my-button>
+    <my-select :options="sortOptions" v-model="selectedSort"/>
+  </div>
 <!--  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки-->
   <input style="display: none" v-model.trim="modificatorValue">
-  <my-button @click="showDialog">Создать пост</my-button>
   <MyDialog v-model:show="dialogVisible">
     <PostForm @create="createPost"/>
   </MyDialog>
-  <PostList v-if="!isPostsLoading" @remove="removePost" :posts="posts"/>
+  <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedPosts"/>
   <my-spinner v-else/>
 </div>
 </template>
@@ -19,9 +22,11 @@ import MyDialog from "@/components/UI/MyDialog";
 import MyButton from "@/components/UI/MyButton";
 import axios from 'axios'
 import MySpinner from "@/components/UI/MySpinner";
+import MySelect from "@/components/UI/MySelect";
 export default {
   name: "App",
   components: {
+    MySelect,
     MySpinner,
     MyButton,
     MyDialog,
@@ -33,7 +38,13 @@ export default {
       ],
       dialogVisible: false,
       modificatorValue: '',
-      isPostsLoading: false
+      isPostsLoading: false,
+      selectedSort: '',
+      sortOptions: [
+        {value: 'title', name: 'по названию'},
+        {value: 'body', name: 'по описанию'},
+        {value: 'id', name: 'по id'},
+      ]
     }
   },
   methods: {
@@ -64,6 +75,14 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+  },
+  computed: {
+    sortedPosts(){
+      return [...this.posts].sort((post1,post2) => String(post1[this.selectedSort])?.localeCompare(String(post2[this.selectedSort]), 'en', {numeric: true})
+      )
+    }
+  },
+  watch: {
   }
 }
 </script>
@@ -76,6 +95,11 @@ export default {
 }
 .app {
   padding: 15px;
+}
+
+.app__btns {
+  display: flex;
+  justify-content: space-between;
 }
 
 </style>
