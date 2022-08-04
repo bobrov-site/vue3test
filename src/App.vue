@@ -1,30 +1,127 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+<div class="app">
+  <h1>Страница с постами</h1>
+  <my-input v-model="searchQuery" placeholder="Поиск" />
+  <div class="app__btns">
+    <my-button @click="showDialog">Создать пост</my-button>
+    <my-select :options="sortOptions" v-model="selectedSort"/>
+  </div>
+<!--  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки-->
+  <input style="display: none" v-model.trim="modificatorValue">
+  <MyDialog v-model:show="dialogVisible">
+    <PostForm @create="createPost"/>
+  </MyDialog>
+  <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
+  <my-spinner v-else/>
+  <PageItem v-model:page="page" :posts="posts" :total-pages="totalPages"/>
+</div>
 </template>
 
+<script>
+import PostForm from "@/components/PostForm";
+import PostList from "@/components/PostList";
+import MyDialog from "@/components/UI/MyDialog";
+import MyButton from "@/components/UI/MyButton";
+import axios from 'axios'
+import MySpinner from "@/components/UI/MySpinner";
+import MySelect from "@/components/UI/MySelect";
+import MyInput from "@/components/UI/MyInput";
+import PageItem from "@/components/PageItem";
+export default {
+  name: "App",
+  components: {
+    PageItem,
+    MyInput,
+    MySelect,
+    MySpinner,
+    MyButton,
+    MyDialog,
+    PostList, PostForm
+  },
+  data() {
+    return {
+      posts: [
+      ],
+      dialogVisible: false,
+      modificatorValue: '',
+      isPostsLoading: false,
+      selectedSort: '',
+      sortOptions: [
+        {value: 'title', name: 'по названию'},
+        {value: 'body', name: 'по описанию'},
+        {value: 'id', name: 'по id'},
+      ],
+      searchQuery: '',
+      page: 1,
+      limit: 10,
+      totalPages: 0
+    }
+  },
+  methods: {
+    createPost(post) {
+      this.posts.push(post);
+      this.dialogVisible = false;
+    },
+    removePost(post) {
+      this.posts = this.posts.filter(p => p.id !== post.id)
+    },
+    showDialog(event) {
+      this.dialogVisible = true;
+    },
+    async fetchPosts(pageNumber) {
+      try {
+        this.isPostsLoading = true
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts' , {
+          params: {
+            _page: this.page,
+            _limit: this.limit
+          }
+        })
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
+        this.posts = response.data
+        this.isPostsLoading = false
+      }
+      catch (e) {
+        alert('ошибка')
+      }
+      finally {
+      }
+    }
+  },
+  mounted() {
+    this.fetchPosts();
+  },
+  computed: {
+    sortedPosts(){
+      return [...this.posts].sort((post1,post2) => String(post1[this.selectedSort])?.localeCompare(String(post2[this.selectedSort]), 'en', {numeric: true})
+      )
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery))
+    },
+  },
+  watch: {
+    // отслеживание состояние вотчера
+    // page() {
+    //   this.fetchPosts();
+    // }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.app {
+  padding: 15px;
 }
 
-nav {
-  padding: 30px;
+.app__btns {
+  display: flex;
+  justify-content: space-between;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
