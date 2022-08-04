@@ -1,4 +1,7 @@
 <template>
+  <div ref="observer" class="observer">
+
+  </div>
 <!--  пагинация layout-->
 <!--  <div class="page__wrapper">-->
 <!--    <div @click="changePage(pageNumber)" v-for="pageNumber in totalPages" :key="pageNumber" class="page" :class="{'current-page' : pageNumber === page }">-->
@@ -19,6 +22,9 @@ export default {
     page: {
       type: Number,
       required: true
+    },
+    observerNode: {
+      required: true
     }
   },
   methods: {
@@ -26,7 +32,9 @@ export default {
     // changePage(pageNumber) {
     //   this.$emit('update:page', pageNumber);
     // }
-
+  },
+  mounted() {
+    this.$emit('update:observerNode', this.$refs.observer)
   }
 }
 </script>
