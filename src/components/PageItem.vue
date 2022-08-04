@@ -1,9 +1,11 @@
 <template>
-  <div class="page__wrapper">
-    <div @click="changePage(pageNumber)" v-for="pageNumber in totalPages" :key="pageNumber" class="page" :class="{'current-page' : pageNumber === page }">
-      {{pageNumber}}
-    </div>
-  </div>
+<!--  пагинация layout-->
+<!--  <div class="page__wrapper">-->
+<!--    <div @click="changePage(pageNumber)" v-for="pageNumber in totalPages" :key="pageNumber" class="page" :class="{'current-page' : pageNumber === page }">-->
+<!--      {{pageNumber}}-->
+<!--    </div>-->
+<!--  </div>-->
+
 </template>
 
 <script>
@@ -20,9 +22,11 @@ export default {
     }
   },
   methods: {
-    changePage(pageNumber) {
-      this.$emit('update:page', pageNumber);
-    }
+    // // пагинация
+    // changePage(pageNumber) {
+    //   this.$emit('update:page', pageNumber);
+    // }
+
   }
 }
 </script>
