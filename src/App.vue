@@ -101,14 +101,8 @@ export default {
     },
   },
   watch: {
-    page: {
-      handler(newValue, oldValue) {
-        if(newValue !== oldValue) {
-          this.page = newValue
-          this.fetchPosts();
-        }
-      },
-      deep: true //если нужно отслеживать изменение свойств
+    page() {
+      this.fetchPosts();
     }
   }
 }
