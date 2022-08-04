@@ -15,14 +15,14 @@
 export default {
   name: "PageItem",
   props: {
-    totalPages : {
-      type: Number,
-      required: true,
-    },
-    page: {
-      type: Number,
-      required: true
-    },
+    // totalPages : {
+    //   type: Number,
+    //   required: true,
+    // },
+    // page: {
+    //   type: Number,
+    //   required: true
+    // },
     observerNode: {
       required: true
     }
