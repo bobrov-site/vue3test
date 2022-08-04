@@ -13,7 +13,7 @@
   </MyDialog>
   <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
   <my-spinner v-else/>
-  <PageItem v-model:page="page" :total-pages="totalPages"/>
+  <PageItem v-model:page="page" :posts="posts" :total-pages="totalPages"/>
 </div>
 </template>
 
@@ -68,7 +68,7 @@ export default {
     showDialog(event) {
       this.dialogVisible = true;
     },
-    async fetchPosts() {
+    async fetchPosts(pageNumber) {
       try {
         this.isPostsLoading = true
         const response = await axios.get('https://jsonplaceholder.typicode.com/posts' , {
@@ -79,7 +79,6 @@ export default {
         })
         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
         this.posts = response.data
-        console.log(response);
         this.isPostsLoading = false
       }
       catch (e) {
@@ -99,9 +98,18 @@ export default {
     },
     sortedAndSearchedPosts() {
       return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery))
-    }
+    },
   },
   watch: {
+    page: {
+      handler(newValue, oldValue) {
+        if(newValue !== oldValue) {
+          this.page = newValue
+          this.fetchPosts();
+        }
+      },
+      deep: true //если нужно отслеживать изменение свойств
+    }
   }
 }
 </script>
