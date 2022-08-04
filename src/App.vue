@@ -101,9 +101,10 @@ export default {
     },
   },
   watch: {
-    page() {
-      this.fetchPosts();
-    }
+    // отслеживание состояние вотчера
+    // page() {
+    //   this.fetchPosts();
+    // }
   }
 }
 </script>
