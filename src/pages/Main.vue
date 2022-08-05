@@ -1,15 +1,15 @@
 <template>
 <div>
   <h1>Добро пожаловать</h1>
-  <MyNav/>
+  <Navbar/>
 </div>
 </template>
 
 <script>
-import MyNav from "@/components/UI/MyNav";
+import Navbar from "@/components/Navbar";
 export default {
   name: "Main",
-  components: {MyNav}
+  components: {Navbar}
 }
 </script>
 

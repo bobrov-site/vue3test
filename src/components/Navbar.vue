@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "MyNav"
+  name: "Navbar"
 }
 </script>
 
