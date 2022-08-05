@@ -11,6 +11,9 @@
       </strong>
     </div>
     <div class="post__buttons">
+      <my-button @click="$router.push('/posts/' + post.id)">
+        Подробнее
+      </my-button>
       <MyButton
       @click="$emit('remove', post)">
         Удалить
@@ -43,5 +46,9 @@ export default {
   background: none;
   border: 2px solid red;
   padding: 10px;
+  margin-right: 15px;
+}
+.post__buttons button:last-child {
+  margin-right: 0;
 }
 </style>
