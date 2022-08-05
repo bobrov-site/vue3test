@@ -17,5 +17,6 @@ export default {
   background: none;
   border: 2px solid red;
   padding: 10px;
+  cursor: pointer;
 }
 </style>

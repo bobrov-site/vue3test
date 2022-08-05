@@ -2,10 +2,16 @@
   <nav class="navigation">
     <ul>
       <li>
-        <router-link to="/posts">Посты</router-link>
+<!--         используется для вставки ссылки в кнопку $router.push('/ссылка')-->
+<!--        в другом случае используется <router-link>-->
+        <my-button @click="$router.push('/posts')">
+          Посты
+        </my-button>
       </li>
       <li>
-        <router-link to="/about">О приложении</router-link>
+        <my-button @click="$router.push('/about')">
+          О приложении
+        </my-button>
       </li>
     </ul>
   </nav>
@@ -13,18 +19,26 @@
 
 <script>
 export default {
-  name: "Navbar"
+  name: "Navbar",
 }
 </script>
 
 <style scoped>
 .navigation {
   margin-top: 15px;
+  width: 100%;
+  background: green;
+  padding: 30px;
 }
 .navigation ul {
   display: flex;
+  list-style-type: none;
 }
 .navigation ul li {
   margin-right: 15px;
+}
+.navigation ul li a {
+  text-decoration: none;
+  color: white;
 }
 </style>
