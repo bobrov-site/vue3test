@@ -3,7 +3,8 @@ import {createStore} from "vuex";
 export default createStore({
     //стэйт это значения по умолчанию доступные в любом месте приложения
     state: {
-        likes: 2
+        likes: 2,
+        isAuth: false,
     },
     //геттерс позволяют изменять значения стэйта
     getters: {
