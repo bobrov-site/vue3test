@@ -84,5 +84,6 @@ export const postModule = {
                 alert('Ошибка')
             }
         }
-    }
+    },
+    namespaced: true
 }
