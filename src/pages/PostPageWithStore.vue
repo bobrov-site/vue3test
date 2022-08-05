@@ -1,34 +1,37 @@
 <template>
   <div>
-    <h1>Страница с постами</h1>
-<!--    <h3>-->
-<!--      {{$store.state.isAuth ? 'Пользователь авторизован' : 'Пользователь не авторизован'}}-->
-<!--    </h3>-->
-<!--&lt;!&ndash;    для того чтобы получить геттере нужно $store.getters.название&ndash;&gt;-->
-<!--    <h2>getter {{$store.getters.doubleLikes}}</h2>-->
-<!--    <div>-->
-<!--&lt;!&ndash;      для того чтобы вызвать мутацию используется $store.commit('названиеМутации')&ndash;&gt;-->
-<!--      <my-button @click="$store.commit('incrementLikes')">-->
-<!--        Лайк-->
-<!--      </my-button>-->
-<!--      <my-button @click="$store.commit('decrementLikes')">-->
-<!--        Дизлайк-->
-<!--      </my-button>-->
+    <h1>
+      {{$store.state.post.limit}}
+    </h1>
+<!--    <h1>Страница с постами</h1>-->
+<!--&lt;!&ndash;    <h3>&ndash;&gt;-->
+<!--&lt;!&ndash;      {{$store.state.isAuth ? 'Пользователь авторизован' : 'Пользователь не авторизован'}}&ndash;&gt;-->
+<!--&lt;!&ndash;    </h3>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    для того чтобы получить геттере нужно $store.getters.название&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>getter {{$store.getters.doubleLikes}}</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      для того чтобы вызвать мутацию используется $store.commit('названиеМутации')&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      <my-button @click="$store.commit('incrementLikes')">&ndash;&gt;-->
+<!--&lt;!&ndash;        Лайк&ndash;&gt;-->
+<!--&lt;!&ndash;      </my-button>&ndash;&gt;-->
+<!--&lt;!&ndash;      <my-button @click="$store.commit('decrementLikes')">&ndash;&gt;-->
+<!--&lt;!&ndash;        Дизлайк&ndash;&gt;-->
+<!--&lt;!&ndash;      </my-button>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2>{{$store.state.likes}}</h2>&ndash;&gt;-->
+<!--    <my-input v-focus v-model="searchQuery" placeholder="Поиск" />-->
+<!--    <div class="app__btns">-->
+<!--      <my-button @click="showDialog">Создать пост</my-button>-->
+<!--      <my-select :options="sortOptions" v-model="selectedSort"/>-->
 <!--    </div>-->
-<!--    <h2>{{$store.state.likes}}</h2>-->
-    <my-input v-focus v-model="searchQuery" placeholder="Поиск" />
-    <div class="app__btns">
-      <my-button @click="showDialog">Создать пост</my-button>
-      <my-select :options="sortOptions" v-model="selectedSort"/>
-    </div>
-    <!--  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки-->
-    <input style="display: none" v-model.trim="modificatorValue">
-    <MyDialog v-model:show="dialogVisible">
-      <PostForm @create="createPost"/>
-    </MyDialog>
-    <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
-    <my-spinner v-else/>
-    <PageItem v-intersection="loadMorePosts" :posts="posts" :total-pages="totalPages"/>
+<!--    &lt;!&ndash;  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки&ndash;&gt;-->
+<!--    <input style="display: none" v-model.trim="modificatorValue">-->
+<!--    <MyDialog v-model:show="dialogVisible">-->
+<!--      <PostForm @create="createPost"/>-->
+<!--    </MyDialog>-->
+<!--    <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>-->
+<!--    <my-spinner v-else/>-->
+<!--    <PageItem v-intersection="loadMorePosts" :posts="posts" :total-pages="totalPages"/>-->
   </div>
 </template>
 
@@ -69,8 +72,7 @@ export default {
       searchQuery: '',
       page: 1,
       limit: 10,
-      totalPages: 0,
-      observerNode: ''
+      totalPages: 0
     }
   },
   methods: {
@@ -103,24 +105,24 @@ export default {
     //   finally {
     //   }
     // },
-    async loadMorePosts() {
-      try {
-        this.page += 1;
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-          params: {
-            _page: this.page,
-            _limit: this.limit
-          }
-        });
-        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
-        this.posts = [...this.posts, ...response.data];
-      } catch (e) {
-        alert('Ошибка')
-      }
-    }
+    // async loadMorePosts() {
+    //   try {
+    //     this.page += 1;
+    //     const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+    //       params: {
+    //         _page: this.page,
+    //         _limit: this.limit
+    //       }
+    //     });
+    //     this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
+    //     this.posts = [...this.posts, ...response.data];
+    //   } catch (e) {
+    //     alert('Ошибка')
+    //   }
+    // }
   },
   mounted() {
-    this.loadMorePosts();
+    // this.loadMorePosts();
   },
   computed: {
     sortedPosts(){
