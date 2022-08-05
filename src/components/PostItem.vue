@@ -1,5 +1,6 @@
 <template>
   <div class="post">
+    <div>{{$store.state.likes}}</div>
     <div>
       <strong>
         Название: <strong>{{post.title}}</strong>

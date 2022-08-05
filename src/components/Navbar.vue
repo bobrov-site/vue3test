@@ -18,6 +18,11 @@
           О приложении
         </my-button>
       </li>
+      <li>
+        <my-button @click="$router.push('/store')">
+          Store
+        </my-button>
+      </li>
     </ul>
   </nav>
 </template>

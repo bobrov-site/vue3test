@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>Страница с постами</h1>
+    <h2>getter {{$store.getters.doubleLikes}}</h2>
+    <h2>{{$store.state.likes}}</h2>
     <my-input v-focus v-model="searchQuery" placeholder="Поиск" />
     <div class="app__btns">
       <my-button @click="showDialog">Создать пост</my-button>

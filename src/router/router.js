@@ -20,6 +20,10 @@ const routes = [
     {
         path: '/posts/:id',
         component: PostPageId
+    },
+    {
+        path: '/store',
+        component: PostPageWithStore
     }
 ]
 
