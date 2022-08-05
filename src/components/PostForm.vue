@@ -5,6 +5,7 @@
       <h4>Создание поста</h4>
 <!--      Для того чтобы была синхранизация данных и инпута прописывается v-model-->
       <my-input
+          v-focus
           v-model="post.title"
           class="input"
           placeholder="название поста"
