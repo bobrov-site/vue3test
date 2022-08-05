@@ -1,21 +1,21 @@
 <template>
   <div>
     <h1>Страница с постами</h1>
-    <h3>
-      {{$store.state.isAuth ? 'Пользователь авторизован' : 'Пользователь не авторизован'}}
-    </h3>
-<!--    для того чтобы получить геттере нужно $store.getters.название-->
-    <h2>getter {{$store.getters.doubleLikes}}</h2>
-    <div>
-<!--      для того чтобы вызвать мутацию используется $store.commit('названиеМутации')-->
-      <my-button @click="$store.commit('incrementLikes')">
-        Лайк
-      </my-button>
-      <my-button @click="$store.commit('decrementLikes')">
-        Дизлайк
-      </my-button>
-    </div>
-    <h2>{{$store.state.likes}}</h2>
+<!--    <h3>-->
+<!--      {{$store.state.isAuth ? 'Пользователь авторизован' : 'Пользователь не авторизован'}}-->
+<!--    </h3>-->
+<!--&lt;!&ndash;    для того чтобы получить геттере нужно $store.getters.название&ndash;&gt;-->
+<!--    <h2>getter {{$store.getters.doubleLikes}}</h2>-->
+<!--    <div>-->
+<!--&lt;!&ndash;      для того чтобы вызвать мутацию используется $store.commit('названиеМутации')&ndash;&gt;-->
+<!--      <my-button @click="$store.commit('incrementLikes')">-->
+<!--        Лайк-->
+<!--      </my-button>-->
+<!--      <my-button @click="$store.commit('decrementLikes')">-->
+<!--        Дизлайк-->
+<!--      </my-button>-->
+<!--    </div>-->
+<!--    <h2>{{$store.state.likes}}</h2>-->
     <my-input v-focus v-model="searchQuery" placeholder="Поиск" />
     <div class="app__btns">
       <my-button @click="showDialog">Создать пост</my-button>
