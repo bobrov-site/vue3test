@@ -1,5 +1,5 @@
 <template>
-  <div ref="observer" class="observer">
+  <div class="observer">
 
   </div>
 <!--  пагинация layout-->
@@ -23,9 +23,9 @@ export default {
     //   type: Number,
     //   required: true
     // },
-    observerNode: {
-      required: true
-    }
+    // observerNode: {
+    //   required: true
+    // }
   },
   methods: {
     // // пагинация
@@ -33,9 +33,9 @@ export default {
     //   this.$emit('update:page', pageNumber);
     // }
   },
-  mounted() {
-    this.$emit('update:observerNode', this.$refs.observer)
-  }
+  // mounted() {
+  //   this.$emit('update:observerNode', this.$refs.observer)
+  // }
 }
 </script>
 

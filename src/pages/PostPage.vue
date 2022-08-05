@@ -13,7 +13,7 @@
     </MyDialog>
     <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
     <my-spinner v-else/>
-    <PageItem v-model:observer-node="observerNode" :posts="posts" :total-pages="totalPages"/>
+    <PageItem v-intersection="loadMorePosts" :posts="posts" :total-pages="totalPages"/>
   </div>
 </template>
 
@@ -69,25 +69,25 @@ export default {
     showDialog(event) {
       this.dialogVisible = true;
     },
-    async fetchPosts(pageNumber) {
-      try {
-        this.isPostsLoading = true
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts' , {
-          params: {
-            _page: this.page,
-            _limit: this.limit
-          }
-        })
-        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
-        this.posts = response.data
-        this.isPostsLoading = false
-      }
-      catch (e) {
-        alert('ошибка')
-      }
-      finally {
-      }
-    },
+    // async fetchPosts(pageNumber) {
+    //   try {
+    //     this.isPostsLoading = true
+    //     const response = await axios.get('https://jsonplaceholder.typicode.com/posts' , {
+    //       params: {
+    //         _page: this.page,
+    //         _limit: this.limit
+    //       }
+    //     })
+    //     this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
+    //     this.posts = response.data
+    //     this.isPostsLoading = false
+    //   }
+    //   catch (e) {
+    //     alert('ошибка')
+    //   }
+    //   finally {
+    //   }
+    // },
     async loadMorePosts() {
       try {
         this.page += 1;
@@ -105,18 +105,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchPosts();
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages) {
-        this.loadMorePosts()
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.observerNode);
+    this.loadMorePosts();
   },
   computed: {
     sortedPosts(){
