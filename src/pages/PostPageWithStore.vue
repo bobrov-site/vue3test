@@ -2,6 +2,15 @@
   <div>
     <h1>Страница с постами</h1>
     <h2>getter {{$store.getters.doubleLikes}}</h2>
+    <div>
+<!--      для того чтобы вызвать мутацию используется $store.commit('названиеМутации')-->
+      <my-button @click="$store.commit('incrementLikes')">
+        Лайк
+      </my-button>
+      <my-button @click="$store.commit('decrementLikes')">
+        Дизлайк
+      </my-button>
+    </div>
     <h2>{{$store.state.likes}}</h2>
     <my-input v-focus v-model="searchQuery" placeholder="Поиск" />
     <div class="app__btns">
