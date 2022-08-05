@@ -28,7 +28,7 @@ import MySelect from "@/components/UI/MySelect";
 import MyInput from "@/components/UI/MyInput";
 import PageItem from "@/components/PageItem";
 export default {
-  name: "PostPage",
+  name: "PostPageWithStore",
   components: {
     PageItem,
     MyInput,
