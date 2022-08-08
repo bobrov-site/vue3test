@@ -1,63 +1,48 @@
 <template>
   <div>
     <h1>Страница с постами</h1>
-    <my-input v-focus v-model="searchQuery" placeholder="Поиск" />
+    <my-input @update:model-value="setSearchQuery" v-focus :model-value="searchQuery" placeholder="Поиск" />
     <div class="app__btns">
       <my-button @click="showDialog">Создать пост</my-button>
-      <my-select :options="sortOptions" v-model="selectedSort"/>
+      <my-select @update:model-value="setSelectedSort" :options="sortOptions" :model-value="selectedSort"/>
     </div>
     <!--  для моделей существуют модификаторы. .trim для удаления пробелов внутри строки-->
-    <input style="display: none" v-model.trim="modificatorValue">
+<!--    <input style="display: none" v-model.trim="modificatorValue">-->
     <MyDialog v-model:show="dialogVisible">
       <PostForm @create="createPost"/>
     </MyDialog>
-    <PostList v-if="!isPostsLoading" @remove="removePost" :posts="sortedAndSearchedPosts"/>
+    <PostList v-if="!isPostsLoading" @remove:model-value="removePost" :posts="sortedAndSearchedPosts"/>
     <my-spinner v-else/>
     <PageItem v-intersection="loadMorePosts" :posts="posts" :total-pages="totalPages"/>
   </div>
 </template>
 
 <script>
-import PostForm from "@/components/PostForm";
-import PostList from "@/components/PostList";
-import MyDialog from "@/components/UI/MyDialog";
-import MyButton from "@/components/UI/MyButton";
-import axios from 'axios'
-import MySpinner from "@/components/UI/MySpinner";
-import MySelect from "@/components/UI/MySelect";
-import MyInput from "@/components/UI/MyInput";
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 import PageItem from "@/components/PageItem";
+import PostList from "@/components/PostList";
+import PostForm from "@/components/PostForm";
 export default {
   name: "PostPageWithStore",
   components: {
     PageItem,
-    MyInput,
-    MySelect,
-    MySpinner,
-    MyButton,
-    MyDialog,
     PostList, PostForm
   },
   data() {
     return {
-      posts: [
-      ],
-      dialogVisible: false,
-      modificatorValue: '',
-      isPostsLoading: false,
-      selectedSort: '',
-      sortOptions: [
-        {value: 'title', name: 'по названию'},
-        {value: 'body', name: 'по описанию'},
-        {value: 'id', name: 'по id'},
-      ],
-      searchQuery: '',
-      page: 1,
-      limit: 10,
-      totalPages: 0
+      dialogVisible: false
     }
   },
   methods: {
+    ...mapMutations({
+      setPage: 'post/setPage',
+      setSearchQuery: 'post/setSearchQuery',
+      setSelectedSort: 'post/setSelectedSort'
+    }),
+    ...mapActions({
+      loadMorePosts: 'post/loadMorePosts',
+      fetchPosts: 'post/fetchPosts'
+    }),
     createPost(post) {
       this.posts.push(post);
       this.dialogVisible = false;
@@ -67,59 +52,30 @@ export default {
     },
     showDialog(event) {
       this.dialogVisible = true;
-    },
-    // async fetchPosts(pageNumber) {
-    //   try {
-    //     this.isPostsLoading = true
-    //     const response = await axios.get('https://jsonplaceholder.typicode.com/posts' , {
-    //       params: {
-    //         _page: this.page,
-    //         _limit: this.limit
-    //       }
-    //     })
-    //     this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
-    //     this.posts = response.data
-    //     this.isPostsLoading = false
-    //   }
-    //   catch (e) {
-    //     alert('ошибка')
-    //   }
-    //   finally {
-    //   }
-    // },
-    // async loadMorePosts() {
-    //   try {
-    //     this.page += 1;
-    //     const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-    //       params: {
-    //         _page: this.page,
-    //         _limit: this.limit
-    //       }
-    //     });
-    //     this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
-    //     this.posts = [...this.posts, ...response.data];
-    //   } catch (e) {
-    //     alert('Ошибка')
-    //   }
-    // }
+    }
   },
   mounted() {
-    // this.loadMorePosts();
+    this.fetchPosts()
   },
   computed: {
-    sortedPosts(){
-      return [...this.posts].sort((post1,post2) => String(post1[this.selectedSort])?.localeCompare(String(post2[this.selectedSort]), 'en', {numeric: true})
-      )
-    },
-    sortedAndSearchedPosts() {
-      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery))
-    },
+    ...mapState({
+      posts: state => state.post.posts,
+      modificatorValue: state => state.post.modificatorValue,
+      isPostsLoading: state => state.post.isPostsLoading,
+      selectedSort: state => state.post.selectedSort,
+      sortOptions: state => state.post.sortOptions,
+      searchQuery: state => state.post.searchQuery,
+      page: state => state.post.page,
+      limit: state => state.post.limit,
+      totalPages: state => state.post.totalPages
+    }),
+    ...mapGetters({
+      sortedPosts: 'post/sortedPosts',
+      sortedAndSearchedPosts: 'post/sortedAndSearchedPosts'
+    })
   },
   watch: {
-    // отслеживание состояние вотчера
-    // page() {
-    //   this.fetchPosts();
-    // }
+
   }
 }
 </script>

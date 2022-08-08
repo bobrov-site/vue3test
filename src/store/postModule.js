@@ -4,7 +4,6 @@ export const postModule = {
     state: () => ({
         posts: [
         ],
-        // dialogVisible: false,
         modificatorValue: '',
         isPostsLoading: false,
         selectedSort: '',
@@ -24,7 +23,7 @@ export const postModule = {
             )
         },
         sortedAndSearchedPosts(state, getters) {
-            return getters.sortedPosts.filter(post => post.title.toLowerCase().includes(state.searchQuery))
+            return getters.sortedPosts.filter(post => post.title.toLowerCase().includes(state.searchQuery.toLowerCase()))
         },
     },
     mutations: {
@@ -36,7 +35,10 @@ export const postModule = {
             state.isPostsLoading = bool
         },
         setSelectedSort(state, selectedSort) {
-            state.isPostsLoading = selectedSort
+            state.selectedSort = selectedSort
+        },
+        isPostsLoading(state, isPostsLoading) {
+            state.isPostsLoading = isPostsLoading
         },
         setSortOptions(state, sortOptions) {
             state.sortOptions = sortOptions
@@ -47,7 +49,9 @@ export const postModule = {
         setPage(state, page) {
             state.page = page
         },
-
+        setTotalPages(state, totalPages) {
+            state.totalPages = totalPages
+        }
     },
     actions: {
         async fetchPosts({state, commit}) {
@@ -69,7 +73,7 @@ export const postModule = {
                 commit('setLoading', false)
             }
         },
-        async loadMorePosts(state, commit) {
+        async loadMorePosts({state, commit}) {
             try {
                 commit('setPage', state.page + 1);
                 const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
@@ -78,10 +82,10 @@ export const postModule = {
                         _limit: state.limit
                     }
                 });
-                commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / this.limit));
-                commit('setPosts',[...this.posts, ...response.data] )
+                commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit));
+                commit('setPosts',[...state.posts, ...response.data] )
             } catch (e) {
-                alert('Ошибка')
+                console.log(e);
             }
         }
     },
