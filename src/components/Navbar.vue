@@ -23,6 +23,11 @@
           Store
         </my-button>
       </li>
+      <li>
+        <my-button @click="$router.push('/composition')">
+          Composition
+        </my-button>
+      </li>
     </ul>
   </nav>
 </template>
